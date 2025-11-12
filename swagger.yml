@@ -1,0 +1,20 @@
+openapi: 3.0.0
+info:
+  title: "RP Flask REST API"
+  description: "An API about crimehotspots in South Africa"
+  version: "1.0.0"
+
+servers:
+  - url: "/api"
+
+
+paths:
+  /crimehotspots:
+    get:
+      operationId: "hotspots.read_all"
+      tags:
+        - "CrimeHotspots"
+      summary: "Read the list of all crimehotspots"
+      responses:
+        "200":
+          description: "Successfully read crimehotspots list"
