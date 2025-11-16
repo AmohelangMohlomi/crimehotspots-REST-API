@@ -1,7 +1,7 @@
 from datetime import datetime
 
 def get_timestamp():
-    return datetime.utcnow().isoformat()
+    return datetime.now().isoformat()
 
 CRIME_HOTSPOTS = {
     "Hillbrow": {
