@@ -7,6 +7,47 @@ info:
 servers:
   - url: "/api"
 
+components:
+  schemas:
+    Hotspot:
+      type: object
+      required:
+        - area
+        - province
+        - city
+        - crime_types
+      properties:
+        area:
+          type: string
+          example: "Hillbrow"
+        province:
+          type: string
+          example: "Gauteng"
+        city:
+          type: string
+          example: "Johannesburg"
+        crime_types:
+          type: array
+          items:
+            type: string
+          example: ["robbery", "assault"]
+        danger_scale:
+          type: number
+          format: float
+          example: 8.5
+        last_reported:
+          type: string
+          format: date-time
+          example: "2025-11-01T10:00:00Z"
+        report_count:
+          type: integer
+          example: 134
+        data_source:
+          type: string
+          example: "SAPS 2025 Q3"
+        timestamp:
+          type: string
+          format: date-time
 
 paths:
   /crimehotspots:
@@ -18,3 +59,77 @@ paths:
       responses:
         "200":
           description: "Successfully read crimehotspots list"
+    post:
+      operationId: "hotspots.create"
+      tags:
+        - CrimeHotspots
+      summary: "Create a new crime hotspot"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              x-body-name: "hotspot"
+              $ref: "#/components/schemas/Hotspot"
+      responses:
+        "201":
+          description: "Successfully created crime hotspot"
+
+  /crimehotspots/{area}:
+    get:
+      operationId: "hotspots.read_one"
+      tags:
+        - CrimeHotspots
+      summary: "Read one crime hotspot by area"
+      parameters:
+        - name: area
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "Successfully returned the hotspot"
+        "404":
+          description: "Hotspot not found"
+
+    put:
+      operationId: "hotspots.update"
+      tags:
+        - CrimeHotspots
+      summary: "Update an existing crime hotspot"
+      parameters:
+        - name: area
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              x-body-name: "hotspot"
+              $ref: "#/components/schemas/Hotspot"
+      responses:
+        "200":
+          description: "Successfully updated hotspot"
+        "404":
+          description: "Hotspot not found"
+
+    delete:
+      operationId: "hotspots.delete"
+      tags:
+        - CrimeHotspots
+      summary: "Delete a crime hotspot"
+      parameters:
+        - name: area
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: "Hotspot deleted"
+        "404":
+          description: "Hotspot not found"
